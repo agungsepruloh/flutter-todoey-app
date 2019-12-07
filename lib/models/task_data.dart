@@ -35,6 +35,8 @@ class TaskData extends ChangeNotifier {
   void updateTask(Task task) {
     task.toggleDone();
     notifyListeners();
+
+    DBHelper.update('user_todos', task.id, task.isDone);
   }
 
   void deleteTask(Task task) {
