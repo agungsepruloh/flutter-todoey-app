@@ -45,8 +45,10 @@ class AddTaskScreen extends StatelessWidget {
                 newTaskTitle = value;
               },
               onSubmitted: (value) {
-                Provider.of<TaskData>(context).addTask(value);
-                Navigator.pop(context);
+                if (value.isNotEmpty) {
+                  Provider.of<TaskData>(context).addTask(value);
+                  Navigator.pop(context);
+                }
               },
               textAlign: TextAlign.center,
             ),
@@ -57,8 +59,10 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                Provider.of<TaskData>(context).addTask(newTaskTitle);
-                Navigator.pop(context);
+                if (newTaskTitle.isNotEmpty) {
+                  Provider.of<TaskData>(context).addTask(newTaskTitle);
+                  Navigator.pop(context);
+                }
               },
             ),
           ],
