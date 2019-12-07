@@ -18,6 +18,12 @@ class DBHelper {
     db.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
+  static Future<void> delete(String table, String id) async {
+    final db = await DBHelper.database();
+    final result = await db.rawDelete("DELETE FROM $table WHERE id = '$id'");
+    assert(result == 1);
+  }
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
     return db.query(table);

@@ -16,15 +16,19 @@ class TaskData extends ChangeNotifier {
     return _tasks.length;
   }
 
-  void addTask(newTaskTitle) {
-    final task = Task(name: newTaskTitle);
+  void addTask(Task newTask) {
+    final task = Task(
+      id: newTask.id,
+      name: newTask.name,
+      isDone: newTask.isDone,
+    );
     _tasks.add(task);
     notifyListeners();
 
     DBHelper.insert('user_todos', {
-      'id': DateTime.now().toString(),
-      'name': newTaskTitle,
-      'is_done': false,
+      'id': newTask.id,
+      'name': newTask.name,
+      'is_done': newTask.isDone,
     });
   }
 
@@ -36,6 +40,8 @@ class TaskData extends ChangeNotifier {
   void deleteTask(Task task) {
     _tasks.remove(task);
     notifyListeners();
+
+    DBHelper.delete('user_todos', task.id);
   }
 
   Future<void> fetchAndSetPlace() async {
@@ -43,6 +49,7 @@ class TaskData extends ChangeNotifier {
     _tasks = dataList
         .map(
           (item) => Task(
+            id: item['id'],
             name: item['name'],
             isDone: item['is_done'] == 0 ? false : true,
           ),

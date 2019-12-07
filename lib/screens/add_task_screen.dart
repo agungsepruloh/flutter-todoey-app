@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:todoey_app_flutter/models/task_data.dart';
+import 'package:todoey_app_flutter/models/task.dart';
 
 class AddTaskScreen extends StatelessWidget {
   final _taskTitleController = TextEditingController();
@@ -9,6 +10,7 @@ class AddTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String newTaskTitle;
+    final taskData = Provider.of<TaskData>(context);
 
     return Container(
       color: Color(0xff757575),
@@ -46,7 +48,9 @@ class AddTaskScreen extends StatelessWidget {
               },
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
-                  Provider.of<TaskData>(context).addTask(value);
+                  taskData.addTask(
+                    Task(id: DateTime.now().toString(), name: value),
+                  );
                   Navigator.pop(context);
                 }
               },
@@ -60,7 +64,9 @@ class AddTaskScreen extends StatelessWidget {
               color: Colors.lightBlueAccent,
               onPressed: () {
                 if (newTaskTitle.isNotEmpty) {
-                  Provider.of<TaskData>(context).addTask(newTaskTitle);
+                  taskData.addTask(
+                    Task(id: DateTime.now().toString(), name: newTaskTitle),
+                  );
                   Navigator.pop(context);
                 }
               },
